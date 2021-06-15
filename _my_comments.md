@@ -1,4 +1,5 @@
-# Установка Laravel 5.8
+## Установка Laravel 5.8
+
 > Vagrant
 
 Под Vagrant потребуется 2 файла:
@@ -106,7 +107,7 @@ Vagrant и VirtualBox жестко привязывают права к обще
 Значения заданы с помощью $PROJECT_SLUG в bootstrap.sh
 <hr>
 
-# Git
+## Git
 
 > Отключение папок в .gitignore
 
@@ -137,7 +138,7 @@ Vagrant и VirtualBox жестко привязывают права к обще
 
 ---
 
-# 36. Перенос проекта из 5.7 в 5.8
+## 36. Перенос проекта из 5.7 в 5.8
 
 Создание доп. файлов:
 > php artisan make:auth
@@ -152,6 +153,42 @@ Vagrant и VirtualBox жестко привязывают права к обще
 - залить папку database (база данных сейчас пустая)
 - залить папку routes
 - залить папку resources/views
+- данные .env файла переносим руками
+
+Возможно, потребуется (автокомплит классов в Laravel) 
+
+    php composer.phar require barryvdh/laravel-ide-helper --dev
+
+Создание БД  
+(можно в файлах миграции подправить increments на bigIncrements и integer на bigInteger: особенность 5.8 )
+
+    // Запускаем миграции и сиды одной командой
+    php artisan migrate --seed
+
+При ошибке команды можно удалить созданные таблицы перед следующим запуском команды.
+
+Возможен последовательный запуск двумя командами:
+
+    // создание таблиц
+    php artisan migrate
+
+    // заполнение таблиц
+    php artisan db:seed
+
+При ошибке "Класс не существует":
+
+    composer dump-autoload
+    // затем
+    php artisan db:seed
+
+Миграции - это описание столбцов таблиц  
+Сидеры и Фабрики - чем заполнять таблицы  
+database\seeds\DatabaseSeeder@run - в какой последовательности заполнять БД
+
+Версия Laravel
+> php artisan -V
+
+---
 
 
 

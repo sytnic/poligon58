@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 // Создание фейковых постов
 $factory->define(\App\Models\BlogPost::class, function (Faker $faker) {
@@ -14,7 +15,7 @@ $factory->define(\App\Models\BlogPost::class, function (Faker $faker) {
         'category_id' => rand(1, 11),
         'user_id' => (rand(1, 5) == 5) ? 1 : 2,  // редко пост принадлежит 1 пользователю, остальное - 2-ому
         'title' => $title,
-        'slug' => str_slug($title),
+        'slug' => Str::slug($title),              // устаревшее str_slug
         'excerpt' => $faker->text(rand(40, 100)), // выдержка для статьи
         'content_raw' => $txt,  // тут будет markdown
         'content_html' => $txt, // тут будет автоматическое создание из markdown

@@ -14,10 +14,10 @@ class CreateBlogPostsTable extends Migration
     public function up()
     {
         Schema::create('blog_posts', function (Blueprint $table) {
-            $table->increments('id');                   // bigIncrements
+            $table->bigIncrements('id');                   // bigIncrements, increments was
 
-            $table->integer('category_id')->unsigned(); // bigInteger
-            $table->integer('user_id')->unsigned();     // bigInteger
+            $table->bigInteger('category_id')->unsigned(); // bigInteger, integer was
+            $table->bigInteger('user_id')->unsigned();     // bigInteger, integer was
 
             $table->string('slug')->unique();
             $table->string('title');

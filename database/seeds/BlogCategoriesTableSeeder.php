@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class BlogCategoriesTableSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class BlogCategoriesTableSeeder extends Seeder
         $cName = 'Без категории';
         $categories[] = [
             'title' => $cName,
-            'slug' => str_slug($cName), // Str::slug //The  method generates a URL friendly "slug"
+            'slug' => Str::slug($cName),    //The  method generates a URL friendly "slug"
             'parent_id' => 0,
         ];
         // \vendor\laravel\framework\src\Illuminate\Support\helpers.php
@@ -31,7 +32,7 @@ class BlogCategoriesTableSeeder extends Seeder
 
             $categories[] = [
                 'title' => $cName,
-                'slug' => str_slug($cName),
+                'slug' => Str::slug($cName), // Str::slug, str_slug устаревшее
                 'parent_id' => $parentId,
             ];
 
