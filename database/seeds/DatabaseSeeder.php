@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // команда php artisan db:seed вызовет последовательно эти сиды и фэкториз
+        // для заполнения таблиц
+        $this->call(UsersTableSeeder::class);
+        $this->call(BlogCategoriesTableSeeder::class);
+        factory(\App\Models\BlogPost::class, 100)->create();
     }
 }

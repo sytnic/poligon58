@@ -1,20 +1,21 @@
-# Установка Laravel 5.8
+## Установка Laravel 5.8
+
 > Vagrant
 
-Под Vagrant потребуется 2 файла: <br>
+Под Vagrant потребуется 2 файла:
 - Vagrantfile и 
-- bootstrap.sh <br>
+- bootstrap.sh 
 
-На основе bootstrap.sh <br>
-в /etc/apache2/sites-enabled/default.conf автоматически будет настроено <br>
-- имя сайта (оно может иметь дополнительный префикс), <br>
+На основе bootstrap.sh  
+в /etc/apache2/sites-enabled/default.conf автоматически будет настроено
+- имя сайта (оно может иметь дополнительный префикс),
 - корневая папка сайта.
 
 В Windows имя сайта также нужно прописать в hosts .
 
 > Запуск: vagrant up
 
-Если потребуется старая версия composer (не понадобилась): <br>
+Если потребуется старая версия composer (не понадобилась):  
 https://stackoverflow.com/questions/64597051/how-to-downgrade-or-install-a-specific-version-of-composer
 
 > Проверка сайта в браузере (подгружается из корневой папки)
@@ -33,8 +34,7 @@ https://stackoverflow.com/questions/64597051/how-to-downgrade-or-install-a-speci
     
     sudo chmod 777 -R storage && sudo chmod 777 -R bootstrap/cache
 
-Vagrant и VirtualBox жестко привязывают права к общей с Windows папке и ее вложенностям. Поменять права вряд ли удастся. <br><br>
-
+Vagrant и VirtualBox жестко привязывают права к общей с Windows папке и ее вложенностям. Поменять права вряд ли удастся.
 > Установка дебаг-бара
 
 Будет прописан в /vendor
@@ -55,9 +55,9 @@ Vagrant и VirtualBox жестко привязывают права к обще
 
 > Подстройка под MySQL
  
- Для MySQL/MariaDB нужно будет добавить следующие строки в <br>
- app\Providers\AppServiceProvider.php, <br>
-    описание здесь: <br>
+ Для MySQL/MariaDB нужно будет добавить следующие строки в  
+ app\Providers\AppServiceProvider.php,  
+    описание здесь:  
     Index Lengths & MySQL / MariaDB
     https://laravel.com/docs/5.7/migrations#indexes :
 
@@ -107,7 +107,7 @@ Vagrant и VirtualBox жестко привязывают права к обще
 Значения заданы с помощью $PROJECT_SLUG в bootstrap.sh
 <hr>
 
-# Git
+## Git
 
 > Отключение папок в .gitignore
 
@@ -130,13 +130,73 @@ Vagrant и VirtualBox жестко привязывают права к обще
 
 > git push origin master
 
-> git push 0.1
+> git push origin 0.1
 
 > git branch develop
 
 > git checkout develop
 
-<hr>
+---
+
+## 36. Перенос проекта из 5.7 в 5.8
+
+Создание доп. файлов:
+> php artisan make:auth
+
+Перенос модели User.php в созданную папку app/Models
+
+Создать репозиторий
+
+Внедрение старого кода.  
+Происходит копированием с заменой папок со старого проекта. Почти все файлы Modified (изменения 5.7, внедренные в 5.8) отменяем, за исключением влияющих на проект (например, database\seeds\DatabaseSeeder.php , routes\web.php). Все Unstaged (со старого проекта, новые созданные в проекте 5.7 файлы) коммитим.
+- залить папку app
+- залить папку database (база данных сейчас пустая)
+- залить папку routes
+- залить папку resources/views
+- данные .env файла переносим руками
+
+Возможно, потребуется (автокомплит классов в Laravel) 
+
+    php composer.phar require barryvdh/laravel-ide-helper --dev
+
+Создание БД  
+(можно в файлах миграции подправить increments на bigIncrements и integer на bigInteger: особенность 5.8 )
+
+    // Запускаем миграции и сиды одной командой
+    php artisan migrate --seed
+
+При ошибке команды можно удалить созданные таблицы перед следующим запуском команды.
+
+Возможен последовательный запуск двумя командами:
+
+    // создание таблиц
+    php artisan migrate
+
+    // заполнение таблиц
+    php artisan db:seed
+
+При ошибке "Класс не существует":
+
+    composer dump-autoload
+    // затем
+    php artisan db:seed
+
+Миграции - это описание столбцов таблиц  
+Сидеры и Фабрики - чем заполнять таблицы  
+database\seeds\DatabaseSeeder@run - в какой последовательности заполнять БД
+
+Версия Laravel
+> php artisan -V
+
+---
+
+
+
+
+
+
+
+
 
 
 
