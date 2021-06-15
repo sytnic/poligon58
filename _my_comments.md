@@ -1,20 +1,20 @@
 # Установка Laravel 5.8
 > Vagrant
 
-Под Vagrant потребуется 2 файла: <br>
+Под Vagrant потребуется 2 файла:
 - Vagrantfile и 
-- bootstrap.sh <br>
+- bootstrap.sh 
 
-На основе bootstrap.sh <br>
-в /etc/apache2/sites-enabled/default.conf автоматически будет настроено <br>
-- имя сайта (оно может иметь дополнительный префикс), <br>
+На основе bootstrap.sh  
+в /etc/apache2/sites-enabled/default.conf автоматически будет настроено
+- имя сайта (оно может иметь дополнительный префикс),
 - корневая папка сайта.
 
 В Windows имя сайта также нужно прописать в hosts .
 
 > Запуск: vagrant up
 
-Если потребуется старая версия composer (не понадобилась): <br>
+Если потребуется старая версия composer (не понадобилась):  
 https://stackoverflow.com/questions/64597051/how-to-downgrade-or-install-a-specific-version-of-composer
 
 > Проверка сайта в браузере (подгружается из корневой папки)
@@ -33,8 +33,7 @@ https://stackoverflow.com/questions/64597051/how-to-downgrade-or-install-a-speci
     
     sudo chmod 777 -R storage && sudo chmod 777 -R bootstrap/cache
 
-Vagrant и VirtualBox жестко привязывают права к общей с Windows папке и ее вложенностям. Поменять права вряд ли удастся. <br><br>
-
+Vagrant и VirtualBox жестко привязывают права к общей с Windows папке и ее вложенностям. Поменять права вряд ли удастся.
 > Установка дебаг-бара
 
 Будет прописан в /vendor
@@ -55,9 +54,9 @@ Vagrant и VirtualBox жестко привязывают права к обще
 
 > Подстройка под MySQL
  
- Для MySQL/MariaDB нужно будет добавить следующие строки в <br>
- app\Providers\AppServiceProvider.php, <br>
-    описание здесь: <br>
+ Для MySQL/MariaDB нужно будет добавить следующие строки в  
+ app\Providers\AppServiceProvider.php,  
+    описание здесь:  
     Index Lengths & MySQL / MariaDB
     https://laravel.com/docs/5.7/migrations#indexes :
 
@@ -130,13 +129,25 @@ Vagrant и VirtualBox жестко привязывают права к обще
 
 > git push origin master
 
-> git push 0.1
+> git push origin 0.1
 
 > git branch develop
 
 > git checkout develop
 
-<hr>
+---
+
+# 36. Перенос проекта из 5.7 в 5.8
+
+Создание доп. файлов:
+> php artisan make:auth
+
+Перенос модели User.php в созданную папку app/Models
+
+
+
+
+
 
 
 
