@@ -189,7 +189,13 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 > php artisan -V
 
 ---
+## 39.
 
+Список всех существующих маршрутов  
+
+    php artisan route:list
+
+При добавлении новых классов в файлы - не забывать прописывать use .
 
 
 

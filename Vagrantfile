@@ -3,7 +3,14 @@ document_root = "public"
 vm_ip_address = "127.0.0.1"
 
 Vagrant.configure("2") do |config|
-  
+ 
+# config.vm.box - Operating System
+# config.vm.provider - virtualbox
+# config.vm.network - How your host sees your box, host:port - in browser in main OS
+# config.vm.synced_folder - How your access files from your computer
+#                           Как получить доступ к файлам с вашего компьютера
+# config.vm.provision - what we want setup
+
   config.vm.box = "hashicorp/bionic64"
   config.vm.hostname = project_slug
     

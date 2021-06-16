@@ -45,7 +45,8 @@ $groupData = [
 ];
 Route::group($groupData, function () {
 
-    //BlogCategory
+    // BlogCategory ,
+    // задаются маршруты,
     // только эти методы будут задействованы, несмотря на 
     // создание ресурсом в контроллере всех методов по умолчанию (+ show, + destroy)
     $methods = ['index', 'edit', 'update', 'create', 'store'];
@@ -53,7 +54,8 @@ Route::group($groupData, function () {
         ->only($methods)
         ->names('blog.admin.categories');
 
-     //BlogPosts
+     // BlogPosts ,
+     // задаются маршруты,
      // использовать все методы, кроме show
      Route:: resource('posts', 'PostController')
      ->except(['show'])
