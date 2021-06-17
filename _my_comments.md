@@ -197,7 +197,16 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 
 При добавлении новых классов в файлы - не забывать прописывать use .
 
+---
+## 40. Обновление поста
 
+Создать реквест BlogPostUpdateRequest:
+создание своего класса запросов, расширяющего FormRequest,
+попадает в папку app/Http/Requests, к-рая будет создана (если её не было)
+
+    php artisan make:request BlogPostUpdateRequest
+
+---
 
 
 

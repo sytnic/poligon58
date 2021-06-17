@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Repositories\BlogPostRepository ;
 use App\Http\Controllers\Blog\Admin\BaseController ;
 use App\Repositories\BlogCategoryRepository ;
+use App\Http\Requests\BlogPostUpdateRequest;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 
 class PostController extends BaseController
@@ -113,10 +116,50 @@ class PostController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * 
+     * Заменили Request (по умолчанию) на свой BlogPostUpdateRequest
      */
-    public function update(Request $request, $id)
+    public function update(BlogPostUpdateRequest $request, $id)
     {
-        dd(__METHOD__, $request->all(), $id);
+        // dd(__METHOD__, $request->all(), $id);
+
+        $item = $this->blogPostRepository->getEdit($id);
+
+        // Если запись в БД не найдена
+        if(empty($item)){
+            return back()
+                ->withErrors(['msg'=>"Запись id=[{$id}] не найдена"])
+                ->withInput();
+        }
+
+        $data = $request->all();
+
+        // Логика проверок по идее должна быть вынесена отсюда из контроллера
+        // Если слаг (будущий урл) пустой, то подставить туда  данные из title
+        if(empty($data['slug'])){
+            $data['slug'] = Str::slug($data['title']);
+        }
+        // Если published_at (когда опубликовано) пустой, а is_published (опубликовано) true (==1), то подставить дату
+        if(empty($item->published_at) && $data['is_published']){
+            $data['published_at']= Carbon::now();
+        }
+
+        $result = $item->update($data); 
+        // задействуется модель BlogPost
+        // и указанные в ней разрешенные поля - protected $fillable
+
+        if($result){
+            // Возврат на эту же страницу с Good сообщением
+            return redirect()
+                ->route('blog.admin.posts.edit', $item->id)
+                ->with(['success'=> 'Успешно сохранено']);
+        } else {
+            // Bad way, возврат назад, сообщение об ошибке с input-полями.
+            return back()
+                ->withErrors(['msg'=>'Ошибка сохранения'])
+                ->withInput();
+        }
+
     }
 
     /**

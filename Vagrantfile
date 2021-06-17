@@ -5,8 +5,8 @@ vm_ip_address = "127.0.0.1"
 Vagrant.configure("2") do |config|
  
 # config.vm.box - Operating System
-# config.vm.provider - virtualbox
 # config.vm.network - How your host sees your box, host:port - in browser in main OS
+# config.vm.provider - virtualbox
 # config.vm.synced_folder - How your access files from your computer
 #                           Как получить доступ к файлам с вашего компьютера
 # config.vm.provision - what we want setup
@@ -20,7 +20,8 @@ Vagrant.configure("2") do |config|
     v.memory = 2048
   end
   
-  # права на файлы/папки для юзера и группы
+  # первая папка - host, текущая; вторая - guest, в linux'e
+  # далее, права на файлы/папки для юзера и группы
   config.vm.synced_folder "./", "/var/www/#{project_slug}", owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
   #config.vm.synced_folder "./", "/var/www/#{project_slug}", type: "nfs"
   
