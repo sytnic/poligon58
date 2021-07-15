@@ -207,14 +207,18 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
     php artisan make:request BlogPostUpdateRequest
 
 ---
+## 41. Обсервер
 
+    php artisan make:observer BlogPostObserver --model=Models\BlogPost
+    php artisan make:observer BlogCategoryObserver --model=Models\BlogCategory
 
+Создаёт немного неправильные обсерверы (ModelsBlogPost)
+Правильней, видимо
 
+    php artisan make:observer BlogPostObserver --model=BlogPost
+    php artisan make:observer BlogCategoryObserver --model=BlogCategory
 
-
-
-
-
+Код с классами обсервера добавляется в AppServiceProvider
 
 
 

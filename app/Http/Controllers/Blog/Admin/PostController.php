@@ -123,6 +123,7 @@ class PostController extends BaseController
     {
         // dd(__METHOD__, $request->all(), $id);
 
+        // Получение записи из БД
         $item = $this->blogPostRepository->getEdit($id);
 
         // Если запись в БД не найдена
@@ -132,22 +133,29 @@ class PostController extends BaseController
                 ->withInput();
         }
 
-        $data = $request->all();
-
+        // Собираются входящие данные
+        $data = $request->all(); 
+        
+        /* 
         // Логика проверок по идее должна быть вынесена отсюда из контроллера
+        // Выносится в Обсервер
+
         // Если слаг (будущий урл) пустой, то подставить туда  данные из title
         if(empty($data['slug'])){
             $data['slug'] = Str::slug($data['title']);
         }
-        // Если published_at (когда опубликовано) пустой, а is_published (опубликовано) true (==1), то подставить дату
+        // Если published_at (когда опубликовано) пустой, а is_published (опубликовано) true (==1), то подставить дату в published_at
         if(empty($item->published_at) && $data['is_published']){
             $data['published_at']= Carbon::now();
         }
+        */
 
+        // Данные обновляются
         $result = $item->update($data); 
         // задействуется модель BlogPost
         // и указанные в ней разрешенные поля - protected $fillable
 
+        // Формирование ответа
         if($result){
             // Возврат на эту же страницу с Good сообщением
             return redirect()

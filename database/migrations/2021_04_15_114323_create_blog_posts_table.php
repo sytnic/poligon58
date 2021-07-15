@@ -27,14 +27,18 @@ class CreateBlogPostsTable extends Migration
             $table->text('content_raw');
             $table->text('content_html');
 
-            $table->boolean('is_published')->default(false); // будет 1 или 0
+            $table->boolean('is_published')->default(false); // будет 1 или 0 в БД
             $table->timestamp('published_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             // внешние ключи
+            // до выполнения этого кода в миграциях предварительно должно пройти создание таблиц
+            // users и blog_categories
+            // наше поле user_id связано с id из таблицы users
             $table->foreign('user_id')->references('id')->on('users');
+            // наше поле category_id связано с id из таблицы blog_categories
             $table->foreign('category_id')->references('id')->on('blog_categories');
             
             // индекс

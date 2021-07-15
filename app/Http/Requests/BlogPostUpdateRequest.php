@@ -30,7 +30,7 @@ class BlogPostUpdateRequest extends FormRequest
             'excerpt' =>'max:500',
             'content_raw' =>'required|string|min:5|max:10000',
             'category_id' =>'required|integer|exists:blog_categories,id' 
-              // esists означает: 
+              // exists означает: 
               // пришедшее значение category_id должно быть в таблице blog_categories в поле id
         ];
     }
