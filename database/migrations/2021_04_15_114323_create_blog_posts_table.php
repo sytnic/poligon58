@@ -16,7 +16,7 @@ class CreateBlogPostsTable extends Migration
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->bigIncrements('id');                   // bigIncrements, increments was
 
-            $table->bigInteger('category_id')->unsigned(); // bigInteger, integer was
+            $table->bigInteger('category_id')->unsigned(); // bigInteger, integer was  // unsigned = больше нуля
             $table->bigInteger('user_id')->unsigned();     // bigInteger, integer was
 
             $table->string('slug')->unique();

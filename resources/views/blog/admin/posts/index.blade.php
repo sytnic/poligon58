@@ -33,7 +33,7 @@
                                 @php
                                     /** @var \App\Models\BlogPost $post           -- это для подсказок в PHPstorm --   */
                                 @endphp
-                                <tr @if(!$post->is_published) style = "background-color: #ccc; "@endif>
+                                <tr @if(!$post->is_published) style = "background-color: #ccc;" @endif>
                                                       {{-- неопубликованная запись будет серой --}}
                                                                         
                                     {{-- Без отношений Eloquent : 

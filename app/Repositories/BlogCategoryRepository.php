@@ -72,6 +72,7 @@ class BlogCategoryRepository extends CoreRepository
         ->get();
         // будет получена коллекция Std классов       
         */
+        
         //3 вариант
         $result = $this
             ->startConditions()

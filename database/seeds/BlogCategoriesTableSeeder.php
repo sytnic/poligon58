@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class BlogCategoriesTableSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class BlogCategoriesTableSeeder extends Seeder
     {
         $categories = [];
 
+        // Создание главной категории
         $cName = 'Без категории';
         $categories[] = [
             'title' => $cName,
@@ -24,8 +26,8 @@ class BlogCategoriesTableSeeder extends Seeder
         // https://laravel.com/docs/8.x/helpers
         // returns about: bez-kategorii
 
-        // Здесь создаются будущие категории:
-        // "Категория #1"
+        // Создание второстепенных категорий
+        // пример: "Категория #1"
         for($i = 2; $i <= 11; $i++){
             $cName = 'Категория #'.$i;
             $parentId = ($i > 4) ? rand(1,4) : 1; //

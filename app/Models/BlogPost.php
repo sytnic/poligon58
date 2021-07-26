@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BlogPost extends Model
 {
     use SoftDeletes;
+    // Когда в контроллере используется $items = BlogPost::all() ,
     // SoftDeletes меняет запросы вида select *всё from на
     // select * from `blog_posts` where `blog_posts`.`deleted_at` is null,
     // т.е. удаленные остаются в базе данных, но не участвуют в выборке.
