@@ -100,7 +100,9 @@ class CategoryController extends BaseController
     {
         $data = $request->input(); // данные, пришедшие с формы, если есть
 
-        // если slug (Идентификатор) из формы пустой, то внутренней функцией str_slug
+        /* Будет в Обсервере.
+        
+        // если slug (Идентификатор) из формы пустой, то 
         // создаём красивый url из title.
         // Повторяемую логику в методах Контроллеров можно вынести в Обсервер.   
         if(empty($data['slug'])){
@@ -108,6 +110,7 @@ class CategoryController extends BaseController
         }
         // посмотреть массив $data
         // dd($data);
+        */
 
         /*
         // Записать в БД. Способ 1.
@@ -211,7 +214,7 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  BlogCategoryUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

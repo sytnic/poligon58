@@ -33,6 +33,7 @@ class BlogPostObserver
 /*        $test[] = $blogPost->isDirty();   // если хотя бы одно поле в БД изменится, вернётся true
        $test[] = $blogPost->isDirty('is_published');      // проверка не всех, а одного поля
        $test[] = $blogPost->isDirty('user_id');           // то же самое
+       $test[] = $blogPost->getDirty();                   // выдаст массив со списком полей, которые будут изменены
        $test[] = $blogPost->getAttribute('is_published'); // "пойманное" значение, к-рое будет записано в БД
        $test[] = $blogPost->is_published;                 // то же самое
        $test[] = $blogPost->getOriginal('is_published');  // значение из БД до изменения

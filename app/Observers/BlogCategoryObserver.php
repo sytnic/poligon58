@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\BlogCategory;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class BlogCategoryObserver
 {
@@ -21,6 +22,39 @@ class BlogCategoryObserver
     {
         //
     }
+
+
+     /**
+     * @param BlogCategory $blogCategory
+     */
+    public function creating(BlogCategory $blogCategory)
+    {
+        $this->setSlug($blogCategory);
+    }
+
+    /**
+     * Если поле слаг пустое, то заполняем его конвертацией с заголовка
+     *
+     * @param BlogCategory $blogCategory
+     */
+    protected function setSlug(BlogCategory $blogCategory)
+    {
+        if(empty($blogCategory->slug)){
+            $blogCategory->slug = Str::slug($blogCategory->title);
+        }
+    }
+
+    /**
+     * Событие происходит до обновления записи в БД.
+     * @param BlogCategory $blogCategory
+     */
+    public function updating(BlogCategory $blogCategory)
+    {
+       // dd(__METHOD__,  $blogCategory->getDirty());
+       
+        $this->setSlug($blogCategory);
+    }
+
 
     /**
      * Handle the models blog category "updated" event.
