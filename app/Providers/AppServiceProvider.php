@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        BlogPost::observe(BlogPostObserver::class);
-        BlogCategory::observe(BlogCategoryObserver::class);
+        BlogPost::observe(BlogPostObserver::class);          // этот обсервер будет наблюдать за этой моделью
+        BlogCategory::observe(BlogCategoryObserver::class);  // этот обсервер будет наблюдать за этой моделью
     }
 }

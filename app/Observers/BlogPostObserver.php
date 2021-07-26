@@ -30,28 +30,32 @@ class BlogPostObserver
     {
 //        Некоторые полезные методы в обсерверах
 
-       $test[] = $blogPost->isDirty();   // если хотя бы одно поле в БД изменится, вернётся true
-       $test[] = $blogPost->isDirty('is_published');  // проверка не всех, а одного поля
-       $test[] = $blogPost->isDirty('user_id');       // то же самое
+/*        $test[] = $blogPost->isDirty();   // если хотя бы одно поле в БД изменится, вернётся true
+       $test[] = $blogPost->isDirty('is_published');      // проверка не всех, а одного поля
+       $test[] = $blogPost->isDirty('user_id');           // то же самое
        $test[] = $blogPost->getAttribute('is_published'); // "пойманное" значение, к-рое будет записано в БД
        $test[] = $blogPost->is_published;                 // то же самое
        $test[] = $blogPost->getOriginal('is_published');  // значение из БД до изменения
        dd($test);
-
+ */
         $this->setPublishedAt($blogPost);
 
         $this->setSlug($blogPost);
+
+    //    return false; // так можно вызвать ошибку сохранения при галочке "Опубликовано" или нет
     }
     /**
-     *  Если публикация не установлена и происходит установка флага - Опубликовано
+     *  Если публикация не установлена и происходит установка флага - Опубликовано,
      *  то устанавливаем дату публикации на текущую
      *
      * @param BlogPost $blogPost
      */
     protected function setPublishedAt(BlogPost $blogPost)
     {
+        $needSetPublishAt = empty($blogPost->published_at) && $blogPost->is_published;
+    //    dd($needSetPublishAt);
         // Если published_at (когда опубликовано) пустой, а is_published (опубликовано) true (==1), то подставить дату в published_at
-        if (empty($blogPost->published_at) && $blogPost->is_published) {
+        if ($needSetPublishAt) {
             $blogPost->published_at = Carbon::now();
         }
     }
@@ -63,6 +67,7 @@ class BlogPostObserver
      */
     protected function setSlug(BlogPost $blogPost)
     {
+    //    dd(__METHOD__, empty($blogPost->slug) );
         // Если слаг (будущий урл) пустой, то подставить туда  данные из title
         if (empty($blogPost->slug)) {
             $blogPost->slug = Str::slug($blogPost->title);
