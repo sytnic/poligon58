@@ -11,6 +11,8 @@ use App\Repositories\BlogCategoryRepository ;
 use App\Http\Requests\BlogPostUpdateRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\BlogPost;
+use App\Http\Requests\BlogPostCreateRequest;
 
 
 class PostController extends BaseController
@@ -57,18 +59,38 @@ class PostController extends BaseController
      */
     public function create()
     {
-        dd(__METHOD__);
+        $item = new BlogPost(); // создали пустой объект модели BlogPost
+        // используется во вью
+
+        /* с использованием репозитория: */
+        // получим список с определенными полями
+        $categoryList
+            = $this->blogCategoryRepository->getForComboBox();
+
+        // вью
+        // по сути, перечисление пути через точку в папке resources/views
+        return view('blog.admin.posts.edit',
+            compact('item', 'categoryList'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  BlogPostCreateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogPostCreateRequest $request)
     {
-        //
+        $data = $request->input();
+        $item = (new BlogPost())->create($data);
+
+        if ($item) {
+            return redirect()->route('blog.admin.posts.edit', [$item->id])
+                             ->with((['success' => 'Успешно сохранено']));
+        } else {
+            return back()->withErrors(['msg'=> 'Ошибка сохранения'])
+                         ->withInput();
+        }
     }
 
     /**

@@ -220,7 +220,10 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 
 Код с классами обсервера добавляется в AppServiceProvider
 
+---
+## 43. 
 
+    php artisan make:request BlogPostCreateRequest
 
 
 

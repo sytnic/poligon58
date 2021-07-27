@@ -31,6 +31,9 @@ class BlogPost extends Model
     // Т.е. используется $items = BlogPost::withTrashed()->all();
     // вместо $items = BlogPost::all();
 
+    // временно используется в app\Observers\BlogPostObserver.php
+    const UNKNOWN_USER = 1;
+
     // разрешенные поля для массового update,
     // например в объекте этого класса $item->update($data)
     protected $fillable = [
@@ -41,7 +44,6 @@ class BlogPost extends Model
         'content_raw',
         'is_published',
         'published_at',
-        'user_id',
     ];
 
     /**

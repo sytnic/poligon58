@@ -6,13 +6,13 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                {{ $errors->first() }}
+                {{-- $errors->first() --}}                {{-- Вывод самой первой ошибки --}}
 
-                {{--
-                @foreach($errors->all() as $errorText)
+                <ul>
+                @foreach($errors->all() as $errorText)    {{-- Вывод всех ошибок         --}}
                     <li>{{$errorText}}</li>
                 @endforeach
-                --}}
+                </ul>
             </div>
         </div>
     </div>
