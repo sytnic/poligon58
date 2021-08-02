@@ -136,14 +136,29 @@ class BlogPostObserver
     }
 
     /**
-     * Handle the models blog post "deleted" event.
+     * После вызова PostController@destroy попадаем сюда
      *
-     * @param  \App\Models\BlogPost  $modelsBlogPost
+     * @param  \App\Models\BlogPost  $blogPost
+     *
      * @return void
      */
-    public function deleted(BlogPost $modelsBlogPost)
+    public function deleting(BlogPost $blogPost)
     {
-        //
+        //dd(__METHOD__, $blogPost);
+
+        // return false;  // удаление не произойдёт
+    }
+
+    /**
+     * После вызова PostController@destroy и удаления записи попадаем сюда
+     * Handle the models blog post "deleted" event.
+     *
+     * @param  \App\Models\BlogPost  $blogPost
+     * @return void
+     */
+    public function deleted(BlogPost $blogPost)
+    {
+       // dd(__METHOD__, $blogPost);
     }
 
     /**

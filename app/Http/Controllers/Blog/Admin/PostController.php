@@ -200,10 +200,27 @@ class PostController extends BaseController
      */
     public function destroy($id)
     {
-        dd(__METHOD__, $id);
+        // dd(__METHOD__, $id);
         // существует "принудительный" вызов объекта $request класса Request
         // с помощью хелперской (внутренней) функции request() 
         // вместо вызова объекта $request->all() :
         //dd(__METHOD__, $id, request()->all() );
+
+        //софт-удаление, в бд остается
+        $result = BlogPost::destroy($id);
+
+        //полное удаление из бд
+        //$result = BlogPost::find($id)->forceDelete();
+
+        if($result){
+
+            //BlogPostAfterDeleteJob::dispatch($id)->delay(5);
+            return redirect()
+                ->route('blog.admin.posts.index')
+                ->with(['success' => "Запись id [$id] удалена"]);
+        } else {
+            return back()->withErrors(['msg'=>'Ошибка удаления']);
+        }
+
     }
 }

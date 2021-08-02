@@ -167,7 +167,7 @@ class CategoryController extends BaseController
      * @return \Illuminate\Http\Response
      */
     // Срабатывает при клике по любой Категории
-    public function edit($id)
+    public function edit($id, BlogCategoryRepository $categoryRepository)
     {
         /* при одиночном параметре id
         
@@ -205,7 +205,7 @@ class CategoryController extends BaseController
          $item = $this->blogCategoryRepository->getEdit($id); 
         
         /* тестовый массив с Мутаторами*/
-        
+    /*    
         $v['title_before'] = $item->title;
 
         // меняем заголовок
@@ -223,8 +223,8 @@ class CategoryController extends BaseController
         $v['toArray'] = $item->toArray();
 
         dd($v, $item);
+    */
 
- 
         if(empty($item)) {
             abort(404);
         }

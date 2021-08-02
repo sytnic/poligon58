@@ -75,31 +75,36 @@ class BlogCategory extends Model
     }
 
 
-    public function attributes() {
-        // 
-    }
+    
+    //*  Для изменений заголовков с применением аксессоров и мутаторов
 
-    /**
-     * Пример аксессора (Accessor)
-     * срабатывает до перезаписи $item->title в \Blog\Admin\CategoryController.php,
-     * использует значение из БД
-     * @param string $valueFromDB
-     *  
-     */
-    public function getTitleAttribute ($valueFromObject) {
+    // public function attributes() {
+    //     // 
+    // }
 
-        return mb_strtoupper($valueFromObject);
-    }
+    // /**
+    //  * Пример аксессора (Accessor)
+    //  * срабатывает до перезаписи $item->title в \Blog\Admin\CategoryController.php,
+    //  * использует значение из БД
+    //  * @param string $valueFromDB
+    //  *  
+    //  */
+    // public function getTitleAttribute ($valueFromObject) {
 
-    /**
-     * Пример мутатора
-     * срабатывает после перезаписи $item->title в \Blog\Admin\CategoryController.php,
-     * использует перезаписанное значение 
-     * @param string $incomingValue
-     * 
-     */
-    public function setTitleAttribute($incomingValue) {
-        $this->attributes['title'] = mb_strtolower($incomingValue);
-    }
+    //     return mb_strtoupper($valueFromObject);
+    // }
+
+    // /**
+    //  * Пример мутатора
+    //  * срабатывает после перезаписи $item->title в \Blog\Admin\CategoryController.php,
+    //  * использует перезаписанное значение 
+    //  * @param string $incomingValue
+    //  * 
+    //  */
+    // public function setTitleAttribute($incomingValue) {
+    //     $this->attributes['title'] = mb_strtolower($incomingValue);
+    // }
+
+
 
 }
