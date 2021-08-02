@@ -167,7 +167,7 @@ class CategoryController extends BaseController
      * @return \Illuminate\Http\Response
      */
     // Срабатывает при клике по любой Категории
-    public function edit($id, BlogCategoryRepository $categoryRepository)
+    public function edit($id)
     {
         /* при одиночном параметре id
         
@@ -199,8 +199,32 @@ class CategoryController extends BaseController
         */
 
         /* при одиночном параметре id и использовании Репозитория */
+        /* в методе применяется edit($id, BlogCategoryRepository $categoryRepository) 
+           или, далее при мутаторах, edit($id)
+        */
+         $item = $this->blogCategoryRepository->getEdit($id); 
+        
+        /* тестовый массив с Мутаторами*/
+        
+        $v['title_before'] = $item->title;
 
-        $item = $this->blogCategoryRepository->getEdit($id);
+        // меняем заголовок
+        $item->title = "WESTer awesteer 046510";
+
+        // заголовок после изменения
+        $v['title_after'] = $item->title;                               
+        // получение title разными методами
+        $v['getAttribute'] = $item->getAttribute('title');      
+        $v['attributesToArray'] = $item->attributesToArray('');
+        $v['attributes'] = $item->attributes('title');
+        $v['getAttributeValue'] = $item->getAttributeValue('title');
+        $v['getMutatedAttributes'] = $item->getMutatedAttributes();
+        $v['hasGetMutator_for_title'] = $item->hasGetMutator('title'); // есть ли мутатор для поля title
+        $v['toArray'] = $item->toArray();
+
+        dd($v, $item);
+
+ 
         if(empty($item)) {
             abort(404);
         }

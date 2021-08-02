@@ -24,6 +24,8 @@ class BlogCategory extends Model
         'description',
     ];
 
+    
+
     /**
      * Получить родительскую категорию 
      * 
@@ -70,6 +72,34 @@ class BlogCategory extends Model
     public function isRoot()
     {
      return $this->id === BlogCategory::ROOT;
+    }
+
+
+    public function attributes() {
+        // 
+    }
+
+    /**
+     * Пример аксессора (Accessor)
+     * срабатывает до перезаписи $item->title в \Blog\Admin\CategoryController.php,
+     * использует значение из БД
+     * @param string $valueFromDB
+     *  
+     */
+    public function getTitleAttribute ($valueFromObject) {
+
+        return mb_strtoupper($valueFromObject);
+    }
+
+    /**
+     * Пример мутатора
+     * срабатывает после перезаписи $item->title в \Blog\Admin\CategoryController.php,
+     * использует перезаписанное значение 
+     * @param string $incomingValue
+     * 
+     */
+    public function setTitleAttribute($incomingValue) {
+        $this->attributes['title'] = mb_strtolower($incomingValue);
     }
 
 }
