@@ -225,5 +225,9 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 
     php artisan make:request BlogPostCreateRequest
 
+---
+## 48.
+
+    php artisan make:controller DiggingDeeperController
 
 
