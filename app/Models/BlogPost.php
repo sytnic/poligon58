@@ -5,9 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class BlogPost
+ * @package App\Models
+ *
+ * @property App\Models\BlogCategory $category
+ * @property App\Models\User         $user
+ * @property string                  $title
+ * @property string                  $slug
+ * @property string                  $content_html
+ * @property string                  $content_raw
+ * @property string                  $excerpt
+ * @property string                  $published_at
+ * @property boolean                 $is_published
+ */
+
 class BlogPost extends Model
 {
     use SoftDeletes;
+    // Когда в контроллере используется $items = BlogPost::all() ,
     // SoftDeletes меняет запросы вида select *всё from на
     // select * from `blog_posts` where `blog_posts`.`deleted_at` is null,
     // т.е. удаленные остаются в базе данных, но не участвуют в выборке.
@@ -15,6 +31,20 @@ class BlogPost extends Model
     // Т.е. используется $items = BlogPost::withTrashed()->all();
     // вместо $items = BlogPost::all();
 
+    // временно используется в app\Observers\BlogPostObserver.php
+    const UNKNOWN_USER = 1;
+
+    // разрешенные поля для массового update,
+    // например в объекте этого класса $item->update($data)
+    protected $fillable = [
+        'title',
+        'slug',
+        'category_id',
+        'excerpt',
+        'content_raw',
+        'is_published',
+        'published_at',
+    ];
 
     /**
      * Категория статьи.

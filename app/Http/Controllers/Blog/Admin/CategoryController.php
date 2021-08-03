@@ -8,6 +8,7 @@ use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Blog\Admin\BaseController;
 use App\Repositories\BlogCategoryRepository;
+use Illuminate\Support\Str;
 
 /**
  * Управление категориями блога
@@ -38,19 +39,17 @@ class CategoryController extends BaseController
     // Срабатывает при переходе на admin/blog/categories
     public function index()
     {
-    /* без репозитория, вызов всех полей из бд  
-        //$d2 = BlogCategory::all();
-        $paginator = BlogCategory::paginate(5);        
-        //dd($d2, $paginator); //информация о переменных
-    */
+        /* без репозитория, вызов всех полей из бд  
+            //$d2 = BlogCategory::all();
+            $paginator = BlogCategory::paginate(5);        
+            //dd($d2, $paginator); //информация о переменных
+        */
 
-    /* для репозитория, вызов определенных полей из бд */
+        /* для репозитория, вызов определенных полей из бд */
         $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
  
         return view('blog.admin.categories.index', compact('paginator'));
     
-
-
     }
 
     /**
@@ -65,6 +64,9 @@ class CategoryController extends BaseController
         //dd(__METHOD__);
 
         $item = new BlogCategory(); // создали пустой объект модели BlogCategory
+        // используется в edit.blade.php 
+        // и далее во вложенных include (item_edit_main_col.blade.php)
+
         /* без использования репозитория: 
         // получим весь список со всеми полями от модели BlogCategory
         $categoryList = BlogCategory::all(); 
@@ -98,14 +100,17 @@ class CategoryController extends BaseController
     {
         $data = $request->input(); // данные, пришедшие с формы, если есть
 
-        // если slug (Идентификатор) из формы пустой, то внутренней функцией str_slug
+        /* Будет в Обсервере.
+        
+        // если slug (Идентификатор) из формы пустой, то 
         // создаём красивый url из title.
         // Повторяемую логику в методах Контроллеров можно вынести в Обсервер.   
         if(empty($data['slug'])){
-            $data['slug'] = str_slug($data['title']);
+            $data['slug'] = Str::slug($data['title']);
         }
         // посмотреть массив $data
         // dd($data);
+        */
 
         /*
         // Записать в БД. Способ 1.
@@ -125,10 +130,12 @@ class CategoryController extends BaseController
         $item = (new BlogCategory())->create($data);
         // vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php
 
+        // Редиректы после сохранения
+
         // Можно if записать так:
-        // if($item->exists)
-        // if($item instanceof BlogCategory) .
-        // Редиректы после сохранения .
+        // if($item->exists) {...}
+        // if($item instanceof BlogCategory) {...} .
+        
         if($item) {
             return redirect()->route('blog.admin.categories.edit', [$item->id])
                 ->with((['success' => 'Успешно сохранено']));
@@ -192,8 +199,32 @@ class CategoryController extends BaseController
         */
 
         /* при одиночном параметре id и использовании Репозитория */
+        /* в методе применяется edit($id, BlogCategoryRepository $categoryRepository) 
+           или, далее при мутаторах, edit($id)
+        */
+         $item = $this->blogCategoryRepository->getEdit($id); 
+        
+        /* тестовый массив с Мутаторами*/
+    /*    
+        $v['title_before'] = $item->title;
 
-        $item = $this->blogCategoryRepository->getEdit($id);
+        // меняем заголовок
+        $item->title = "WESTer awesteer 046510";
+
+        // заголовок после изменения
+        $v['title_after'] = $item->title;                               
+        // получение title разными методами
+        $v['getAttribute'] = $item->getAttribute('title');      
+        $v['attributesToArray'] = $item->attributesToArray('');
+        $v['attributes'] = $item->attributes('title');
+        $v['getAttributeValue'] = $item->getAttributeValue('title');
+        $v['getMutatedAttributes'] = $item->getMutatedAttributes();
+        $v['hasGetMutator_for_title'] = $item->hasGetMutator('title'); // есть ли мутатор для поля title
+        $v['toArray'] = $item->toArray();
+
+        dd($v, $item);
+    */
+
         if(empty($item)) {
             abort(404);
         }
@@ -207,7 +238,7 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  BlogCategoryUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -221,7 +252,7 @@ class CategoryController extends BaseController
                 // т.е. к категории .
                 // В итоге заменим на свой Класс вместо Request
 
-       public function update(BlogCategoryObjectRequest $request, $id)           
+    public function update(BlogCategoryObjectRequest $request, $id)           
     {
 
         // Вся валидация будет внутри BlogCategoryObjectRequest,
@@ -248,7 +279,7 @@ class CategoryController extends BaseController
         // $validatedData = $this->validate($request, $rules);
         
         // способ 2, обращение к Request'у, в фоне породится объект класса Validator
-        //$validatedData = $request->validate($rules);
+        // $validatedData = $request->validate($rules);
         // в случае ошибки validate() вызывает дефолтный withErrors()
         // \vendor\laravel\framework\src\Illuminate\Foundation\Validation\ValidatesRequests.php
 
@@ -282,9 +313,9 @@ class CategoryController extends BaseController
 
         if(empty($item)){               // если empty, в т.ч. null,
             return back()               // back (из хелперов) редиректит на шаг назад (назад по url)
-                ->withErrors(['msg' => "Запись id=[{$id}]не найдена"]) // сохраняет ошибку в сессию и выводит её
+                ->withErrors(['msg' => "Запись id=[{$id}] не найдена"]) // сохраняет ошибку в сессию
                 ->withInput();          // возвращает на место уже заполненные данные с input полей,
-                ;                       // это _old_input в дебагбаре, в Session
+                                       // это _old_input в дебагбаре, в Session
         }
 
         $data = $request->all();  // массив всех данных, полученных реквестом
@@ -294,7 +325,7 @@ class CategoryController extends BaseController
         // создаём красивый url из title.
         // Повторяемую логику в методах Контроллеров можно вынести в Обсервер.     
         if(empty($data['slug'])){
-            $data['slug'] = str_slug($data['title']);
+            $data['slug'] = Str::slug($data['title']);
         }
         
         $result = $item

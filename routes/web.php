@@ -16,26 +16,37 @@ Route::get('/', function () {
 });
 
 // чтобы не указывать отдельно get, post , delete.. для маршрутов, 
-//   можно указать одной строкой:
-//   указываются ресурс (uri, controller), имя маршрута names
-//Route::resource('rest', 'RestTestController')->names('restTest');
-// имя маршрута names('restTest'); можно не задавать
+// можно указать одной строкой, где
+//   указываются ресурс (uri, controller), имя маршрута names:
+//   Route::resource('rest', 'RestTestController')->names('restTest');
+// имя маршрута names('restTest') можно не задавать
 
 Auth::routes();
 // регистрация новых маршрутов авторизации
+
 Route::get('/home', 'HomeController@index')->name('home');
 // маршрут в случае успешной авторизации
+
+
+Route::group(['prefix'=>'digging_deeper'], function () {
+    Route::get('collections', 'DiggingDeeperController@collections')
+        ->name('digging_deeper.collections');
+});
+
+
 
 Route::group(['namespace'=>'Blog','prefix'=>'blog'], function(){
     Route::resource('posts', 'PostController')->names('blog.posts');
 });
 // для отображения индексного маршрута будет работать /blog/posts/ в адресной строке браузера
-// Префикс и namespace можно было указать и так
+// Префикс (для url) и namespace (для контроллера) можно было указать и так
 /*
     Route::resource('blog/posts', 'Blog/PostController')->names('blog.posts');
 */
 
+
 //Админка Блога
+
 // url'om будет 'admin/blog/' + 'categories/' из блока Route::resource
 // проверить можно будет командой php artisan route:list
 // новая папка Blog\Admin создаётся при создании контроллера (12.)
@@ -45,7 +56,8 @@ $groupData = [
 ];
 Route::group($groupData, function () {
 
-    //BlogCategory
+    // BlogCategory ,
+    // задаются маршруты,
     // только эти методы будут задействованы, несмотря на 
     // создание ресурсом в контроллере всех методов по умолчанию (+ show, + destroy)
     $methods = ['index', 'edit', 'update', 'create', 'store'];
@@ -53,9 +65,10 @@ Route::group($groupData, function () {
         ->only($methods)
         ->names('blog.admin.categories');
 
-     //BlogPosts
+     // BlogPosts ,
+     // задаются маршруты,
      // использовать все методы, кроме show
-     Route:: resource('posts', 'PostController')
-     ->except(['show'])
-     ->names('blog.admin.posts');    
+    Route:: resource('posts', 'PostController')
+       ->except(['show'])
+       ->names('blog.admin.posts');    
 });

@@ -189,19 +189,45 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 > php artisan -V
 
 ---
+## 39.
 
+Список всех существующих маршрутов  
 
+    php artisan route:list
 
+При добавлении новых классов в файлы - не забывать прописывать use .
 
+---
+## 40. Обновление поста
 
+Создать реквест BlogPostUpdateRequest:
+создание своего класса запросов, расширяющего FormRequest,
+попадает в папку app/Http/Requests, к-рая будет создана (если её не было)
 
+    php artisan make:request BlogPostUpdateRequest
 
+---
+## 41. Обсервер
 
+    php artisan make:observer BlogPostObserver --model=Models\BlogPost
+    php artisan make:observer BlogCategoryObserver --model=Models\BlogCategory
 
+Создаёт немного неправильные обсерверы (ModelsBlogPost)
+Правильней, видимо
 
+    php artisan make:observer BlogPostObserver --model=BlogPost
+    php artisan make:observer BlogCategoryObserver --model=BlogCategory
 
+Код с классами обсервера добавляется в AppServiceProvider
 
+---
+## 43. 
 
+    php artisan make:request BlogPostCreateRequest
 
+---
+## 48.
+
+    php artisan make:controller DiggingDeeperController
 
 

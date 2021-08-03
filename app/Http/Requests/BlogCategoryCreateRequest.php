@@ -14,8 +14,11 @@ class BlogCategoryCreateRequest extends FormRequest
     public function authorize()
     {
         //return false; // false не даёт войти неавторизованным пользователям
-
+        
         return true;
+
+        // в проектах может применяться 
+        // return auth()->check(); 
     }
 
     /**

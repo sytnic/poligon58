@@ -40,7 +40,7 @@
                                        required>
                                     @foreach($categoryList as $categoryOption)
                                         <option value="{{ $categoryOption->id }}"
-                                            @if($categoryOption->id == $item->parent_id) selected @endif >                                            
+                                            @if ($categoryOption->id == $item->parent_id) selected @endif >                                            
                                             {{ $categoryOption->id_title }}
                                             {{--  для работы с репозиторием --}}
                                             
@@ -64,7 +64,8 @@
                                             {{-- можно использовать просто $item->description --}}
                                             {{-- old('description') вернёт уже заполненные данные обратно, 
                                             если форма будет возвращена с ошибкой;
-                                            работает в связке с return back()->withInput() в соответствующем контроллере,
+                                            работает в связке с return back()->withInput() в соответствующем контроллере
+                                            (app\Http\Controllers\Blog\Admin\CategoryController@update),
                                             иначе 
                                             выведет данные из БД с помощью $item->description .
                                             old() определён в хелперах . --}}

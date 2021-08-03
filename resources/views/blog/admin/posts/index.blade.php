@@ -12,6 +12,9 @@
 {{--        @endif                                      --}}
         <div class="row justify-content-center">
             <div class="col-md-12">
+
+                @include('blog.admin.posts.includes.result_messages')
+
                 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
                     <a class="btn btn-primary" href="{{ route('blog.admin.posts.create') }}">Написать</a>
                 </nav>
@@ -33,7 +36,7 @@
                                 @php
                                     /** @var \App\Models\BlogPost $post           -- это для подсказок в PHPstorm --   */
                                 @endphp
-                                <tr @if(!$post->is_published) style = "background-color: #ccc; "@endif>
+                                <tr @if(!$post->is_published) style = "background-color: #ccc;" @endif>
                                                       {{-- неопубликованная запись будет серой --}}
                                                                         
                                     {{-- Без отношений Eloquent : 

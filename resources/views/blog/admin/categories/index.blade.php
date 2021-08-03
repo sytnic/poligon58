@@ -27,8 +27,27 @@
                                                 {{ $item->title }}
                                             </a>
                                         </td>
-                                        <td @if(in_array($item->parent_id, [0, 1])) style="color:#ccc" @endif>
-                                            {{ $item->parent_id }}{{-- $item->parentCategory->title --}}
+                                        <td @if (in_array($item->parent_id, [0, 1])) style="color:#ccc" @endif  >
+                                        {{--    {{ $item->parent_id }}    --}}                
+
+                                        {{--    {{ $item->parentCategory->title }}       это вызовет ошибку, обращение к свойству объекта, но объект null    --}}  
+
+                                        {{--    {{ $item->parentCategory->title ?? '?'      }}   --}}        
+                                                 
+                                        {{--    {{ optional ($item->parentCategory)->title  }}   --}}    
+
+                                              {{-- может быть вынесено в модель, в аксессор --}}   
+                                              {{--
+                                                    $item->parentCategory->title 
+                                                    ?? ($item->id === App\Models\BlogCategory::ROOT
+                                                        ? 'Корень'
+                                                        : '???' ) 
+                                              --}}
+
+                                              {{-- {{ $item->parent_title }}  --}}
+
+                                              {{ $item->parentTitle }}     {{-- camelCase предполагает, что свойство назначено аксессором в модели, --}}
+                                                                           {{-- "змеиный_регистр" - свойство взято из БД  --}}
                                         </td>
                                     </tr>
                                 @endforeach

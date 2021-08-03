@@ -22,10 +22,10 @@ class PostController extends BaseController
         //dd($items[0]);
 
 
-        return view('blog.posts.index', compact('items'));
+        return view('blog.posts.index', compact('items')); 
         // выдача представления;
-        // под эту строчку создаётся (частично уже есть) 
-        // resources/views/blog/posts/index.blade.php
+        // под этот view создаётся  resources/views/blog/posts/index.blade.php;
+        // в compact() используется имя переменной
     }
 
     /**

@@ -5,6 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
+use App\Models\BlogCategory;
+use App\Models\BlogPost;
+use App\Observers\BlogCategoryObserver;
+use App\Observers\BlogPostObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,5 +30,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        BlogPost::observe(BlogPostObserver::class);          // этот обсервер будет наблюдать за этой моделью
+        BlogCategory::observe(BlogCategoryObserver::class);  // этот обсервер будет наблюдать за этой моделью
     }
 }
