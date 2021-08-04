@@ -230,4 +230,48 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 
     php artisan make:controller DiggingDeeperController
 
+---
+## 51. Update Laravel 5.8->6.0
+
+Обновление до высшей минорной версии
+
+    php artisan update
+
+Замена строк composer.json из 6,0 версии в 5,8 версию и обновление пакетов
+
+    composer update
+    или
+    php composer.phar update
+
+Протестировать сайт.  
+(Можно изменить Controllers\Blog\Admin\CategoryController).
+
+Для минимума достаточно.
+
+---
+
+Создать новую таблицу failed_jobs (автоматически появляется начиная с версии 6.0):
+
+    php artisan queue:failed-table
+
+
+Обновление системы авторизации. При этом продублируются маршруты в routes\web.php, т.к. некоторые маршруты уже созданы.  
+ 
+
+    composer require laravel/ui
+    или
+    php composer.phar require laravel/ui
+
+    php artisan ui vue --auth (6.0)
+    php artisan ui:auth (8.0)
+
+
+Скопировать папку resources\views\auth из 6.0 версии в 5.8.
+
+Необязательно:  
+скопировать из 6.0 версии в рабочую public\css\app.css и public\js\app.js
+
+---
+
+
 
