@@ -72,3 +72,9 @@ Route::group($groupData, function () {
        ->except(['show'])
        ->names('blog.admin.posts');    
 });
+
+/* Можно удалить, возникли при обновлении 5,8->6,0
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+*/

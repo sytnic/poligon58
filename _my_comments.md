@@ -257,7 +257,8 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
     или
     php composer.phar update
 
-Поменять строчки 115-119 в файле vendor\laravel\framework\src\Illuminate\Foundation\PackageManifest.php. https://stackoverflow.com/questions/61177995/laravel-packagemanifest-php-undefined-index-name
+Поменять строчки 115-119 в файле vendor\laravel\framework\src\Illuminate\Foundation\PackageManifest.php. https://stackoverflow.com/questions/61177995/laravel-packagemanifest-php-undefined-index-name .  
+Так уже изменено в новых версиях c "^6.0" при установке.
 
         if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
             //$packages = json_decode($this->files->get($path), true);
@@ -286,7 +287,8 @@ https://stackoverflow.com/questions/58162258/method-illuminate-translation-trans
     php artisan queue:failed-table
 
 
-Обновление системы авторизации. При этом продублируются маршруты в routes\web.php, т.к. некоторые маршруты уже созданы.  
+Обновление системы авторизации.  
+При этом удалить некоторые маршруты в routes\web.php, т.к. они уже созданы.  
  
 
     composer require laravel/ui "~1.0"
@@ -294,13 +296,16 @@ https://stackoverflow.com/questions/58162258/method-illuminate-translation-trans
     php composer.phar require laravel/ui "~1.0"
 
     php artisan ui vue --auth (6.0)
-    php artisan ui:auth (8.0)
+    (php artisan ui:auth (8.0))
 
-
-Скопировать папку resources\views\auth из 6.0 версии в 5.8.
+При выполнении "php artisan ui vue --auth" подтвердить замену файлов в resources\views\auth или скопировать папку resources\views\auth из 6.0 версии в 5.8.
 
 Необязательно:  
 скопировать из 6.0 версии в рабочую public\css\app.css и public\js\app.js
+
+Установка новой таблицы, рефреш БД.
+
+    php artisan migrate:refresh --seed
 
 ---
 
