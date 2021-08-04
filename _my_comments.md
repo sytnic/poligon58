@@ -233,15 +233,46 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 ---
 ## 51. Update Laravel 5.8->6.0
 
-Обновление до высшей минорной версии
+Замена строк composer.json из 6,0 версии в 5,8 версию и обновление пакетов. Тильда ~ обновляет до высшей патч версии.
 
-    php artisan update
+```
+    "require": {
+        "php": "~7.3.28",
+        ...
+        "laravel/framework": "6.0.*",
+        ...
+        "laravel/ui": "~1.0"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "~3.0",
+        ...
+        "nunomaduro/collision": "~3.0",
+        "phpunit/phpunit": "~8.0"
+    },
 
-Замена строк composer.json из 6,0 версии в 5,8 версию и обновление пакетов
+```
+
 
     composer update
     или
     php composer.phar update
+
+Поменять строчки 115-119 в файле vendor\laravel\framework\src\Illuminate\Foundation\PackageManifest.php. https://stackoverflow.com/questions/61177995/laravel-packagemanifest-php-undefined-index-name
+
+        if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
+            //$packages = json_decode($this->files->get($path), true);
+            $installed = json_decode($this->files->get($path), true);
+            $packages = $installed['packages'] ?? $installed;
+        }
+
+    composer dump-autoload
+
+    php artisan -V
+
+Artisan command to avoid Blade errors related to the removal of Lang::transChoice, Lang::trans, and Lang::getFromJson.  
+https://stackoverflow.com/questions/58162258/method-illuminate-translation-translatorgetfromjson-does-not-exist
+
+    php artisan view:clear
 
 Протестировать сайт.  
 (Можно изменить Controllers\Blog\Admin\CategoryController).
@@ -258,9 +289,9 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 Обновление системы авторизации. При этом продублируются маршруты в routes\web.php, т.к. некоторые маршруты уже созданы.  
  
 
-    composer require laravel/ui
+    composer require laravel/ui "~1.0"
     или
-    php composer.phar require laravel/ui
+    php composer.phar require laravel/ui "~1.0"
 
     php artisan ui vue --auth (6.0)
     php artisan ui:auth (8.0)
