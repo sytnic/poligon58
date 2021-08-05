@@ -38,6 +38,9 @@ return [
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default',
+            // Если задание выполнялось более 'retry_after' сек. без удаления,
+            // то задача вновь вернётся в очередь для повторного запуска.
+            // https://toster.ru/q/661335
             'retry_after' => 90,
         ],
 

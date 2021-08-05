@@ -230,4 +230,120 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 
     php artisan make:controller DiggingDeeperController
 
+---
+## 51. Update Laravel 5.8->6.0
+
+Замена строк composer.json из 6,0 версии в 5,8 версию и обновление пакетов. Тильда ~ обновляет до высшей патч версии. Домик ^ до высшей минорной версии. https://habr.com/ru/post/258891/
+
+```
+    "require": {
+        "php": "~7.3.28",
+        ...
+        "laravel/framework": "6.0.*",
+        ...
+        "laravel/ui": "~1.0"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "~3.0",
+        ...
+        "nunomaduro/collision": "~3.0",
+        "phpunit/phpunit": "~8.0"
+    },
+
+```
+
+
+    composer update
+    или
+    php composer.phar update
+
+Поменять строчки 115-119 в файле vendor\laravel\framework\src\Illuminate\Foundation\PackageManifest.php. https://stackoverflow.com/questions/61177995/laravel-packagemanifest-php-undefined-index-name .  
+Так уже изменено в новых версиях c "^6.0" при установке.
+
+        if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
+            //$packages = json_decode($this->files->get($path), true);
+            $installed = json_decode($this->files->get($path), true);
+            $packages = $installed['packages'] ?? $installed;
+        }
+
+    composer dump-autoload
+
+    php artisan -V
+
+Удаление устаревших методов для blade-файлов. Artisan command to avoid Blade errors related to the removal of Lang::transChoice, Lang::trans, and Lang::getFromJson.  
+https://stackoverflow.com/questions/58162258/method-illuminate-translation-translatorgetfromjson-does-not-exist
+
+    php artisan view:clear
+
+Протестировать сайт.  
+(Можно изменить Controllers\Blog\Admin\CategoryController).
+
+
+Создать новую таблицу failed_jobs (автоматически появляется начиная с версии 6.0):
+
+    php artisan queue:failed-table
+
+Для минимума достаточно. Но нужно обновить БД.
+
+    php artisan migrate:refresh --seed
+
+---
+
+Обновление системы авторизации.  
+При этом удалить некоторые маршруты в routes\web.php, т.к. они уже созданы.   
+
+    composer require laravel/ui "~1.0"
+    или
+    php composer.phar require laravel/ui "~1.0"
+
+    php artisan ui vue --auth (6.0)
+    (php artisan ui:auth (8.0))
+
+При выполнении "php artisan ui vue --auth" подтвердить замену файлов в resources\views\auth или скопировать папку resources\views\auth из 6.0 версии в 5.8.
+
+Необязательно:  
+скопировать из 6.0 версии в рабочую public\css\app.css и public\js\app.js
+
+Установка новой таблицы, рефреш БД.
+
+    php artisan migrate:refresh --seed
+
+    php artisan -V
+
+---
+## 52. Подготовка очередей
+
+Создаем миграцию для новой таблицы jobs
+
+    php artisan queue:table
+
+Создаем миграцию для таблицы failed_jobs, если не создавалась
+
+    php artisan queue:failed-table
+
+ Произвести все незавершенные миграции. Все предыдущие выполненные миграции не будут запущены. 
+
+    php artisan migrate
+
+Создаем первые jobs
+
+    php artisan make:job BlogPostAfterCreateJob
+    php artisan make:job BlogPostAfterDeleteJob
+    php artisan make:job ProcessVideoJob
+
+Логи здесь:
+
+    storage\logs\
+
+Настройки очередей:
+
+    config\queue.php
+
+В .env файле настройка
+
+QUEUE_CONNECTION=sync (выполнение сразу) или database (нужны таблицы jobs и failed_jobs)
+
+---
+## 53. Работа с очередями
+
 
