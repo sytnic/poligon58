@@ -311,6 +311,39 @@ https://stackoverflow.com/questions/58162258/method-illuminate-translation-trans
     php artisan -V
 
 ---
+## 52. Подготовка очередей
 
+Создаем миграцию для новой таблицы jobs
+
+    php artisan queue:table
+
+Создаем миграцию для таблицы failed_jobs, если не создавалась
+
+    php artisan queue:failed-table
+
+ Произвести все незавершенные миграции. Все предыдущие выполненные миграции не будут запущены. 
+
+    php artisan migrate
+
+Создаем первые jobs
+
+    php artisan make:job BlogPostAfterCreateJob
+    php artisan make:job BlogPostAfterDeleteJob
+    php artisan make:job ProcessVideoJob
+
+Логи здесь:
+
+    storage\logs\
+
+Настройки очередей:
+
+    config\queue.php
+
+В .env файле настройка
+
+QUEUE_CONNECTION=sync (выполнение сразу) или database (нужны таблицы jobs и failed_jobs)
+
+---
+## 53. Работа с очередями
 
 
