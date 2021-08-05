@@ -233,7 +233,7 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 ---
 ## 51. Update Laravel 5.8->6.0
 
-Замена строк composer.json из 6,0 версии в 5,8 версию и обновление пакетов. Тильда ~ обновляет до высшей патч версии.
+Замена строк composer.json из 6,0 версии в 5,8 версию и обновление пакетов. Тильда ~ обновляет до высшей патч версии. Домик ^ до высшей минорной версии. https://habr.com/ru/post/258891/
 
 ```
     "require": {
@@ -270,7 +270,7 @@ database\seeds\DatabaseSeeder@run - в какой последовательно
 
     php artisan -V
 
-Artisan command to avoid Blade errors related to the removal of Lang::transChoice, Lang::trans, and Lang::getFromJson.  
+Удаление устаревших методов для blade-файлов. Artisan command to avoid Blade errors related to the removal of Lang::transChoice, Lang::trans, and Lang::getFromJson.  
 https://stackoverflow.com/questions/58162258/method-illuminate-translation-translatorgetfromjson-does-not-exist
 
     php artisan view:clear
@@ -278,18 +278,19 @@ https://stackoverflow.com/questions/58162258/method-illuminate-translation-trans
 Протестировать сайт.  
 (Можно изменить Controllers\Blog\Admin\CategoryController).
 
-Для минимума достаточно.
-
----
 
 Создать новую таблицу failed_jobs (автоматически появляется начиная с версии 6.0):
 
     php artisan queue:failed-table
 
+Для минимума достаточно. Но нужно обновить БД.
+
+    php artisan migrate:refresh --seed
+
+---
 
 Обновление системы авторизации.  
-При этом удалить некоторые маршруты в routes\web.php, т.к. они уже созданы.  
- 
+При этом удалить некоторые маршруты в routes\web.php, т.к. они уже созданы.   
 
     composer require laravel/ui "~1.0"
     или
@@ -306,6 +307,8 @@ https://stackoverflow.com/questions/58162258/method-illuminate-translation-trans
 Установка новой таблицы, рефреш БД.
 
     php artisan migrate:refresh --seed
+
+    php artisan -V
 
 ---
 

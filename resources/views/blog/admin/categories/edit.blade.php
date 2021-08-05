@@ -3,6 +3,11 @@
 @section('content')
     @php /** $var \App\Models\BlogCategory $item */ @endphp
 
+    <div class="container">
+            <a href="{{ route('blog.admin.categories.index' )}}">
+                    Список категорий
+            </a>                    
+    </div>  
 
     {{--    в зависимости от целей 
             (форма редактирования (под update) или форма создания новой категории (под store)) 

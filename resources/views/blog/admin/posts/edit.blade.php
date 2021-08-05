@@ -5,6 +5,12 @@
 
     <div class="container">
 
+        <div class="container">
+                <a href="{{ route('blog.admin.posts.index' )}}">
+                        Список постов
+                </a>                    
+        </div>
+
         @include('blog.admin.posts.includes.result_messages') {{-- Результат выдачи --}}
 
         {{-- Если запись по id существует, то action формы update; если не существует, то action - store. --}}
