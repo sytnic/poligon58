@@ -24,7 +24,7 @@ class BlogPostAfterDeleteJob implements ShouldQueue
      */
     public function __construct($blogPostId)
     {
-        $this->blogPostId->$blogPostId;
+        $this->blogPostId = $blogPostId;
     }
 
     /**

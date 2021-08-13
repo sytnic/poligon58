@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\BlogPost;
 use App\Http\Requests\BlogPostCreateRequest;
+use App\Jobs\BlogPostAfterCreateJob;
+use App\Jobs\BlogPostAfterDeleteJob;
 
 
 class PostController extends BaseController
@@ -85,6 +87,16 @@ class PostController extends BaseController
         $item = (new BlogPost())->create($data);
 
         if ($item) {
+            $job = new BlogPostAfterCreateJob($item);
+            $this->dispatch($job);
+            // dispatch() выполнит задачу сразу или
+            // поставит в очередь если у класса (джоба) BlogPostAfterCreateJob есть implements ShouldQueue
+            // В таблице jobs будет создан объект Json, его некоторые параметры (https://jsoneditoronline.org):
+            // maxTries - количество попыток
+            // delay - отсрочка выполнения
+            // timeout - разрешенное время процесса выполнения задачи
+            // timeoutAt - дата, до который будут попытки
+
             return redirect()->route('blog.admin.posts.edit', [$item->id])
                              ->with((['success' => 'Успешно сохранено']));
         } else {
@@ -214,7 +226,25 @@ class PostController extends BaseController
 
         if($result){
 
-            //BlogPostAfterDeleteJob::dispatch($id)->delay(5);
+            //BlogPostAfterDeleteJob::dispatch($id);
+            // delay(20) - это отсрочка выполнения задачи на столько секунд
+            BlogPostAfterDeleteJob::dispatch($id)->delay(20);
+
+            // Варианты запуска очереди задач,
+            // используются методы трейта Dispatchable в классе BlogPostAfterDeleteJob
+
+            // выполнится даже без интерфейса implements ShouldQueue класса BlogPostAfterDeleteJob
+            //BlogPostAfterDeleteJob::dispatchNow($id);
+            
+            // Хелперские функции
+            //dispatch(new BlogPostAfterDeleteJob($id));
+            //dispatch_now(new BlogPostAfterDeleteJob($id));
+
+            // Если в головном (расширяемом) классе (Controller) есть трейт use DispatchesJobs,
+            // то можно вызывать $this из этого класса .
+            //$this->dispatch(new BlogPostAfterDeleteJob($id));
+            //$this->dispatchNow(new BlogPostAfterDeleteJob($id));
+
             return redirect()
                 ->route('blog.admin.posts.index')
                 ->with(['success' => "Запись id [$id] удалена"]);

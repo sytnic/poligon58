@@ -12,7 +12,12 @@ use App\Models\BlogPost;
 class BlogPostAfterCreateJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    
+    /* Dispatchable - его методы делают отложеннный запуск (dispatch) или сразу (dispatchNow),
+       InteractsWithQueue - управление объектом очереди (сколько попыток, удалить из очереди и т.д.),
+       Queueable - логика работы джоба,
+       SerializesModels - подтягивание модели.
+    */
+
     /**
      * @var BlogPost
      */
@@ -26,6 +31,9 @@ class BlogPostAfterCreateJob implements ShouldQueue
     public function __construct(BlogPost $blogPost)
     {
         $this->blogPost = $blogPost;
+        
+        // задаёт желаемую очередь для джоба
+        //$this->onQueue('default');
     }
 
     /**
