@@ -32,7 +32,8 @@ class BlogPostAfterCreateJob implements ShouldQueue
     {
         $this->blogPost = $blogPost;
         
-        // задаёт желаемую очередь для джоба
+        // задаёт желаемую очередь для джоба (задачи),
+        // т.е., видимо, выполнять в Очереди эту задачу (default - имя джоба из БД) 
         //$this->onQueue('default');
     }
 

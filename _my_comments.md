@@ -374,6 +374,10 @@ QUEUE_CONNECTION=sync (выполнение сразу) или =database (нуж
 Запускает процесс обработки задач указанной очереди.
 Изменения сделанные в коде после запуска будут приняты.
 Хуже по производительности в сравнении с "queue:work" .
+Работает с очередью по имени default, прописанному в таблице jobs.
+В случае другого имени дописывается --queue=new_name:
+
+    php artisan queue:listen --queue=new_name
 
     php artisan queue:restart
 Мягкий перезапуск демона queue:work после того, как тот завершит выполняемую задачу.
@@ -389,6 +393,27 @@ QUEUE_CONNECTION=sync (выполнение сразу) или =database (нуж
     php artisan queue:retry 5
 
 Возврат проваленной задачи (id=5) в очередь выполнения.
+
+---
+## 54. Очереди - цепочки задач
+
+Идея - если бы это был интернет-магазин, создание одного прайса от многих точек, городов,
+и предоставление его стороннему веб-сервису.
+
+    php artisan make:job GenerateCatalog/AbstractJob
+
+    php artisan make:job GenerateCatalog/GenerateCatalogMainJob
+    php artisan make:job GenerateCatalog/GenerateCatalogCacheJob
+
+    php artisan make:job GenerateCatalog/GeneratePricesFileChunkJobs
+    php artisan make:job GenerateCatalog/GenerateCategoriesJob
+    php artisan make:job GenerateCatalog/GenerateDeliveriesJob
+
+    php artisan make:job GenerateCatalog/GeneratePointsJob
+    php artisan make:job GenerateCatalog/ArchiveUploadsJobs
+    php artisan make:job GenerateCatalog/SendPriceRequestJob
+
+    php artisan make:job GenerateCatalog/GenerateGoodsFileJob
 
 
 

@@ -233,14 +233,14 @@ class PostController extends BaseController
             // Варианты запуска очереди задач,
             // используются методы трейта Dispatchable в классе BlogPostAfterDeleteJob
 
-            // выполнится даже без интерфейса implements ShouldQueue класса BlogPostAfterDeleteJob
+            // 1. Выполнится даже без интерфейса implements ShouldQueue класса BlogPostAfterDeleteJob
             //BlogPostAfterDeleteJob::dispatchNow($id);
             
-            // Хелперские функции
+            // 2. Хелперские функции
             //dispatch(new BlogPostAfterDeleteJob($id));
             //dispatch_now(new BlogPostAfterDeleteJob($id));
 
-            // Если в головном (расширяемом) классе (Controller) есть трейт use DispatchesJobs,
+            // 3. Если в головном (расширяемом) классе (Controller) есть трейт use DispatchesJobs,
             // то можно вызывать $this из этого класса .
             //$this->dispatch(new BlogPostAfterDeleteJob($id));
             //$this->dispatchNow(new BlogPostAfterDeleteJob($id));
